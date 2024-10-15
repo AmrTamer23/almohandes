@@ -1,6 +1,8 @@
 import Logo from "@/app/assets/imgs/logo.png";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function NavBar({
   lang,
@@ -13,6 +15,14 @@ export function NavBar({
     onLangChange(lang === "en" ? "ar" : "en");
   };
 
+  const pathname = usePathname();
+
+  const navItems = [
+    { href: "", label: { en: "Home", ar: "الرئيسية" } },
+    { href: "/about", label: { en: "About Us", ar: "من نحن" } },
+    { href: "/services", label: { en: "Our Services", ar: "خدماتنا" } },
+    { href: "/contact", label: { en: "Contact Us", ar: "اتصل بنا" } },
+  ];
   return (
     <header className="bg-background border-b">
       <div
@@ -30,27 +40,26 @@ export function NavBar({
           className="w-52 h-fit mt-1"
         />
         <nav className="flex-grow">
-          <ul className="flex space-x-4 items-center justify-center">
-            <li>
-              <a href="#" className="text-foreground hover:text-primary">
-                {lang === "en" ? "Home" : "الرئيسية"}
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-foreground hover:text-primary">
-                {lang === "en" ? "About Us" : "من نحن"}
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-foreground hover:text-primary">
-                {lang === "en" ? "Our Services" : "خدماتنا"}
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-foreground hover:text-primary">
-                {lang === "en" ? "Contact Us" : "اتصل بنا"}
-              </a>
-            </li>
+          <ul
+            className={clsx(
+              "flex items-center justify-center",
+              lang === "ar" ? "space-x-reverse" : "space-x-4"
+            )}
+          >
+            {navItems.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={clsx(
+                    "text-foreground hover:text-primary transition-colors",
+                    pathname === `/${lang}` + item.href &&
+                      " p-3 bg-blue-600 text-white rounded-full"
+                  )}
+                >
+                  {lang === "en" ? item.label.en : item.label.ar}
+                </Link>
+              </li>
+            ))}
             <li>
               <Button variant="default">
                 {lang === "en" ? "Register" : "تسجيل"}
