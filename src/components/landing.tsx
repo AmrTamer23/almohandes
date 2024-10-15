@@ -1,29 +1,20 @@
 "use client";
-
 import { langAtom } from "@/stores/useLang";
 import { useAtom } from "jotai";
-import { NavBar } from "./nav-bar";
+import HeroEn from "@/app/assets/imgs/hero-en.png";
+import HeroAr from "@/app/assets/imgs/hero-ar.png";
 
 export function Landing() {
   const [lang] = useAtom(langAtom);
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavBar lang={lang} />
       <main className="flex-grow">
-        <section className="relative h-96 bg-gray-900 text-white">
-          <img
-            src="/placeholder.svg?height=400&width=1200"
-            alt="Office Space"
-            className="opacity-50"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <h1 className="text-4xl font-bold mb-4">شركة المهندس</h1>
-              <p className="text-xl">للمقاولات والتوريدات الحكومية</p>
-            </div>
-          </div>
-        </section>
+        <img
+          src={lang === "en" ? HeroEn.src : HeroAr.src}
+          alt="All-Muhandis Logo"
+          className="opacity-90"
+        />
 
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
