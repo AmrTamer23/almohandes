@@ -4,17 +4,30 @@ import { langAtom } from "@/stores/useLang";
 import { useAtom } from "jotai";
 import { usePathname } from "next/navigation";
 import { useTransitionRouter } from "next-view-transitions";
+import { useEffect } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const route = useTransitionRouter();
-  const [lang, setlang] = useAtom(langAtom);
+  const [lang, setLang] = useAtom(langAtom);
   const pathname = usePathname();
 
-  const toggleLang = (lang: "en" | "ar") => {
-    setlang(lang);
+  useEffect(() => {
     const currentPath = pathname.split("/");
-    currentPath[1] = lang;
-    route.push(currentPath.join("/"));
+    const newLang = currentPath[1] as "ar" | "en";
+
+    // Only set the language if it has changed
+    if (newLang !== lang) {
+      setLang(newLang);
+    }
+  }, [pathname, lang, setLang]);
+
+  const toggleLang = (newLang: "en" | "ar") => {
+    const currentPath = pathname.split("/");
+    // Only update the route if the language is different
+    if (currentPath[1] !== newLang) {
+      currentPath[1] = newLang;
+      route.push(currentPath.join("/"));
+    }
   };
 
   return (

@@ -42,8 +42,8 @@ export function NavBar({
         <nav className="flex-grow">
           <ul
             className={clsx(
-              "flex items-center justify-center",
-              lang === "ar" ? "space-x-reverse" : "space-x-4"
+              "flex items-center justify-center gap-4 *:text-lg",
+              lang === "ar" && "flex-row-reverse"
             )}
           >
             {navItems.map((item) => (
@@ -60,11 +60,6 @@ export function NavBar({
                 </Link>
               </li>
             ))}
-            <li>
-              <Button variant="default">
-                {lang === "en" ? "Register" : "تسجيل"}
-              </Button>
-            </li>
           </ul>
         </nav>
 
